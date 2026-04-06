@@ -21,7 +21,9 @@ php artisan storage:link --force || true
 
 # 2. Run migrations
 echo "📦 Running database migrations..."
-php artisan migrate --force --isolated
+# We override CACHE_STORE to 'file' for migrations to avoid "Table cache_locks not found" 
+# on the very first deployment when using --isolated.
+CACHE_STORE=file php artisan migrate --force --isolated
 
 # 3. Cache optimization
 echo "⚡ Optimizing application cache..."
